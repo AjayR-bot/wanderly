@@ -1,0 +1,24 @@
+# Render Blueprint: free web service for Wanderly. Secrets are entered in the Render dashboard.
+services:
+  - type: web
+    name: wanderly
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      # Render's proxy terminates HTTPS and forwards to the app inside its private network,
+      # so the app listens on all interfaces there. Locally HOST stays 127.0.0.1.
+      - key: HOST
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: "1"
+      - key: NODE_VERSION
+        value: "20"
+      - key: DAILY_PLAN_CAP
+        value: "100"
+      - key: GEOAPIFY_API_KEY
+        sync: false
+      - key: CONTACT_EMAIL
+        sync: false
